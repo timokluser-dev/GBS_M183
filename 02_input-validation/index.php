@@ -16,6 +16,8 @@ if (count($_POST)) {
   <title>Bestellformular</title>
 
   <style>
+    @charset "UTF-8";
+    
     form>div {
       margin-bottom: 10px;
     }
