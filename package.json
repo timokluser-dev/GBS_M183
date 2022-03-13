@@ -1,7 +1,7 @@
 {
-  "name": "gh-starter-template",
+  "name": "gbs_m183",
   "version": "1.0.0",
-  "description": "gh-starter-template is a template for your github repository.",
+  "description": "GBS_M183",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timokluser-dev/gh-starter-template.git"
+    "url": "git+https://github.com/timokluser-dev/GBS_M183.git"
   },
   "keywords": [],
   "author": "timokluser-dev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/timokluser-dev/gh-starter-template/issues"
+    "url": "https://github.com/timokluser-dev/GBS_M183/issues"
   },
-  "homepage": "https://github.com/timokluser-dev/gh-starter-template#readme",
+  "homepage": "https://github.com/timokluser-dev/GBS_M183#readme",
   "devDependencies": {
     "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
