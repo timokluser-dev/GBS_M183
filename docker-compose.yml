@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  web:
+    image: php:8.0-apache
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8081:80"
+    networks:
+      - public
+      - local
+    hostname: web
+    restart: "no"
+
+# volumes:
+#   <service>-data: null
+
+networks:
+  public:
+    internal: false
+  local:
+    internal: true
