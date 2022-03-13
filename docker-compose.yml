@@ -1,7 +1,11 @@
 version: "3.3"
 services:
   web:
-    image: php:8.0-apache
+    image: gbs-m183_web
+    build:
+      context: .
+      dockerfile: .docker/php.Dockerfile
+      network: host
     volumes:
       - .:/var/www/html
     ports:
