@@ -1,8 +1,8 @@
 FROM php:8.0-apache
 
 # ext: mysql pdo_mysql
-RUN docker-php-ext-install pdo pdo_mysql && \
-    docker-php-ext-enable pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql mysqli && \
+    docker-php-ext-enable pdo pdo_mysql mysqli
 
 # ext: xdebug
 RUN pecl install xdebug && \
