@@ -33,6 +33,7 @@ services:
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root
+      UPLOAD_LIMIT: 50M
     ports:
       - "8082:80"
     networks:
