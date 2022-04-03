@@ -32,6 +32,7 @@ abstract class Helpers
     /**
      * sanitize html input and prevent xss.
      * **IMPORTANT:** POST and GET variables are already sanitized!
+     * @param string $input string to sanitize
      */
     public static function sanitize(string $input)
     {
@@ -53,6 +54,8 @@ abstract class Helpers
 
     /**
      * get a form field
+     * @param string $key key of field (= name)
+     * @param FieldTypes $type type of the field - default `FieldTypes::string`
      * @return null|array|object|mixed form field
      */
     public static function getFormField(string $key, FieldTypes $type = FieldTypes::string)
@@ -86,6 +89,7 @@ abstract class Helpers
     /**
      * get a form field with long text.
      * includes convert from nl to html <br />
+     * @param string $key key of field with long text / textarea (= name)
      * @return string|null form field text - `null` if not string
      */
     public static function getFormFieldLongText(string $key)
@@ -137,6 +141,7 @@ abstract class Helpers
 
     /**
      * check for valid email and get email parts
+     * @param string $email email to test
      * @return bool|string[] `false` if no email - `string[]` with parts if valid email
      * 
      * `string[1]` => mailbox  
