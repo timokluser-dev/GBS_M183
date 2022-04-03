@@ -18,6 +18,19 @@ $sektion = Helpers::getFormField('Sektion', FieldTypes::array);
 $agb = Helpers::getFormField('AGB', FieldTypes::boolean);
 #endregion Form Fields
 
+$reset = Helpers::getFormField('reset');
+if ($reset) {
+  $anrede = null;
+  $vorname = null;
+  $nachname = null;
+  $email = null;
+  $promo = null;
+  $anzahl = null;
+  $kommentare = null;
+  $sektion = null;
+  $agb = null;
+}
+
 if (Helpers::isPost()) {
   // Helpers::preventReSubmit();
 
@@ -93,7 +106,7 @@ if (Helpers::isPost()) {
   <h1>WM-Ticketservice</h1>
 
   <?php
-  if (count($errors)) :
+  if (count($errors) && !$reset) :
   ?>
 
     <div class="form-errors">
@@ -243,6 +256,7 @@ if (Helpers::isPost()) {
 
         <div class="mt">
           <button type="submit">Bestellung aufgeben</button>
+          <button type="submit" name="reset" value="true">Formular zurücksetzen</button>
         </div>
       </form>
     </div>
