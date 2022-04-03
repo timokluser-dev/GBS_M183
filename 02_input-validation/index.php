@@ -6,10 +6,21 @@ require_once './helpers.php';
 
 $errors = [];
 
+#region Form Fields
+$anrede = Helpers::getFormField('Anrede');
+$vorname = Helpers::getFormField('Vorname');
+$nachname = Helpers::getFormField('Nachname');
+$email = Helpers::getFormField('Email');
+$promo = Helpers::getFormField('Promo');
+$anzahl = Helpers::getFormField('Anzahl', FieldTypes::int);
+$kommentare = Helpers::getFormFieldLongText('Kommentare');
+$sektion = Helpers::getFormField('Sektion', FieldTypes::array);
+$agb = Helpers::getFormField('AGB', FieldTypes::boolean);
+#endregion Form Fields
+
 if (Helpers::isPost()) {
   // Helpers::preventReSubmit();
 
-  $anrede = Helpers::getFormField('Anrede');
   if (!$anrede) {
     array_push($errors, 'Keine Anrede angegeben');
   }
@@ -18,42 +29,34 @@ if (Helpers::isPost()) {
     array_push($errors, 'Keine gültige Anrede angegeben');
   }
 
-  $vorname = Helpers::getFormField('Vorname');
   if (!$vorname) {
     array_push($errors, 'Keinen Vornamen angegeben');
   }
 
-  $nachname = Helpers::getFormField('Nachname');
   if (!$nachname) {
     array_push($errors, 'Keinen Nachname angegeben');
   }
 
-  $email = Helpers::getFormField('Email');
   if (!$email) {
     array_push($errors, 'Keine Email angegeben');
   }
 
-  $promo = Helpers::getFormField('Promo');
-  $promoCodes = Helpers::getJson('promo.json');
-  if ($promo && Helpers::array_includes($promo, $promoCodes->promos) === false) {
+  $promoCodes = Helpers::getJson('promo.json')->promos;
+  if ($promo && !Helpers::array_includes($promo, $promoCodes)) {
     array_push($errors, 'Ungültiger Promo-Code eingegeben');
   }
 
-  $anzahl = Helpers::getFormField('Anzahl');
   if (!$anzahl) {
     array_push($errors, 'Keine Anzahl Tickets angegeben');
   }
 
-  $sektion = Helpers::getFormField('Sektion');
   if (!$sektion) {
     array_push($errors, 'Keine Sektion(en) ausgewählt');
   }
 
-  $kommentare = Helpers::getFormFieldLongText('Kommentare');
 
-  $agb = (bool) Helpers::getFormField('AGB');
   if (!$agb) {
-    array_push($errors, 'Die AGBs wurden nicht akzeptionert');
+    array_push($errors, 'Die AGBs wurden nicht akzeptiert');
   }
 }
 ?>
@@ -167,73 +170,75 @@ if (Helpers::isPost()) {
     <div class="mt form">
       <form method="POST">
         <div>
-          <input type="radio" name="Anrede" id="herr" value="mr" <?php if (Helpers::getFormField('Anrede') === 'mr') : echo 'checked';
-                                                                  endif; ?> required>
+          <input type="radio" name="Anrede" id="herr" value="mr" <?php if ($anrede === 'mr') : echo 'checked';
+                                                                  endif; ?>>
           <label for="herr">Herr</label>
 
-          <input type="radio" name="Anrede" id="frau" value="ms" <?php if (Helpers::getFormField('Anrede') === 'ms') : echo 'checked';
-                                                                  endif; ?> required>
+          <input type="radio" name="Anrede" id="frau" value="ms" <?php if ($anrede === 'ms') : echo 'checked';
+                                                                  endif; ?>>
           <label for="frau">Frau</label>
         </div>
 
         <div>
           <label for="vorname">Vorname</label>
-          <input type="text" name="Vorname" id="vorname" value="<?php echo Helpers::getFormField('Vorname'); ?>" required />
+          <input type="text" name="Vorname" id="vorname" value="<?php echo $vorname; ?>" />
         </div>
 
         <div>
           <label for="nachname">Nachname</label>
-          <input type="text" name="Nachname" id="nachname" value="<?php echo Helpers::getFormField('Nachname'); ?>" required />
+          <input type="text" name="Nachname" id="nachname" value="<?php echo $nachname; ?>" />
         </div>
 
         <div>
           <label for="email">E-Mail-Adresse </label>
-          <input type="email" name="Email" id="email" value="<?php echo Helpers::getFormField('Email'); ?>" required />
+          <input type="email" name="Email" id="email" value="<?php echo $email; ?>" />
         </div>
 
         <div>
           <label for="promo">Promo-Code</label>
-          <input type="password" name="Promo" id="promo" value="<?php echo Helpers::getFormField('Promo'); ?>" />
+          <input type="password" name="Promo" id="promo" value="<?php echo $promo; ?>" />
         </div>
 
         <div>
           <label for="anzahl">Anzahl Karten</label>
-          <select name="Anzahl" id="anzahl" required>
-            <option value="" disabled <?php if (!Helpers::getFormField('Anzahl')) : echo 'selected';
+          <select name="Anzahl" id="anzahl">
+            <option value="" disabled <?php if (!$anzahl) : echo 'selected';
                                       endif; ?>>Bitte wählen</option>
-            <option value="1" <?php if (Helpers::getFormField('Anzahl') === '1') : echo 'selected';
-                              endif; ?>>1</option>
-            <option value="2" <?php if (Helpers::getFormField('Anrede') === '2') : echo 'selected';
+            <option value="1" <?php if ($anzahl === 1) : echo 'selected';
+                                endif; ?>>1</option>
+            <option value="2" <?php if ($anzahl === 2) : echo 'selected';
                               endif; ?>>2</option>
-            <option value="3" <?php if (Helpers::getFormField('Anrede') === '3') : echo 'selected';
+            <option value="3" <?php if ($anzahl === 3) : echo 'selected';
                               endif; ?>>3</option>
-            <option value="4" <?php if (Helpers::getFormField('Anrede') === '4') : echo 'selected';
+            <option value="4" <?php if ($anzahl === 4) : echo 'selected';
                               endif; ?>>4</option>
           </select>
         </div>
 
         <div>
           <label for="sektion">Gewünschte Sektion im Stadion</label>
-          <select name="Sektion[]" size="4" multiple="multiple" id="sektion" required>
-            <option value="nord" <?php if (Helpers::getFormField('Sektion') && Helpers::array_includes('nord', Helpers::getFormField('Sektion')) !== false) : echo 'selected';
+          <select name="Sektion[]" size="4" multiple="multiple" id="sektion">
+            <option value="nord" <?php if ($sektion && Helpers::array_includes('nord', $sektion)) : echo 'selected';
                                   endif; ?>>Nordkurve</option>
-            <option value="sued" <?php if (Helpers::getFormField('Sektion') && Helpers::array_includes('sued', Helpers::getFormField('Sektion')) !== false) : echo 'selected';
+            <option value="sued" <?php if ($sektion && Helpers::array_includes('sued', $sektion)) : echo 'selected';
                                   endif; ?>>Südkurve</option>
-            <option value="haupt" <?php if (Helpers::getFormField('Sektion') && Helpers::array_includes('haupt', Helpers::getFormField('Sektion')) !== false) : echo 'selected';
+            <option value="haupt" <?php if ($sektion && Helpers::array_includes('haupt', $sektion)) : echo 'selected';
                                   endif; ?>>Haupttribüne</option>
-            <option value="gegen" <?php if (Helpers::getFormField('Sektion') && Helpers::array_includes('gegen', Helpers::getFormField('Sektion')) !== false) : echo 'selected';
+            <option value="gegen" <?php if ($sektion && Helpers::array_includes('gegen', $sektion)) : echo 'selected';
                                   endif; ?>>Gegentribüne</option>
           </select>
         </div>
 
         <div>
           <label for="kommentare">Kommentare/Anmerkungen</label>
+          <!-- SpecialCase: textarea when still edit, no Helpers::getFormFieldLongText -->
           <textarea cols="70" rows="10" name="Kommentare" id="kommentare"><?php echo Helpers::getFormField('Kommentare'); ?></textarea>
         </div>
 
         <div class="mt">
           <label for="agb">Ich akzeptiere die AGB.</label>
-          <input type="checkbox" name="AGB" id="agb" value="true" checked="<?php echo Helpers::getFormField('AGB'); ?>" required />
+          <input type="checkbox" name="AGB" id="agb" value="error" <?php if ($agb) : echo 'checked';
+                                                                            endif; ?> />
         </div>
 
         <div class="mt">
