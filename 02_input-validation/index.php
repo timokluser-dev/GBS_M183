@@ -53,6 +53,9 @@ if (Helpers::isPost()) {
   if (!$email) {
     array_push($errors, 'Keine Email angegeben');
   }
+  if ($email && !Helpers::formatEmail($email)) {
+    array_push($errors, 'Keine gültige Email angegeben');
+  }
 
   $promoCodes = Helpers::getJson('promo.json')->promos;
   if ($promo && !Helpers::array_includes($promo, $promoCodes)) {
@@ -204,7 +207,7 @@ if (Helpers::isPost()) {
 
         <div>
           <label for="email">E-Mail-Adresse </label>
-          <input type="email" name="Email" id="email" value="<?php echo $email; ?>" />
+          <input type="text" name="Email" id="email" value="<?php echo $email; ?>" />
         </div>
 
         <div>
@@ -218,7 +221,7 @@ if (Helpers::isPost()) {
             <option value="" disabled <?php if (!$anzahl) : echo 'selected';
                                       endif; ?>>Bitte wählen</option>
             <option value="1" <?php if ($anzahl === 1) : echo 'selected';
-                                endif; ?>>1</option>
+                              endif; ?>>1</option>
             <option value="2" <?php if ($anzahl === 2) : echo 'selected';
                               endif; ?>>2</option>
             <option value="3" <?php if ($anzahl === 3) : echo 'selected';
@@ -251,7 +254,7 @@ if (Helpers::isPost()) {
         <div class="mt">
           <label for="agb">Ich akzeptiere die AGB.</label>
           <input type="checkbox" name="AGB" id="agb" value="error" <?php if ($agb) : echo 'checked';
-                                                                            endif; ?> />
+                                                                    endif; ?> />
         </div>
 
         <div class="mt">
