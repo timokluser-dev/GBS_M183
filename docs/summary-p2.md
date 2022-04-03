@@ -561,25 +561,16 @@ abstract class Helpers
             self::sanitizePostAndGet();
         }
 
-        if (!$_POST) {
-            if ($_GET) {
-                # code...
-            }
-
-            echo null;
-        }
-
         if (!$_POST || ($_POST && !array_key_exists($key, $_POST))) {
             return null;
         }
 
         if (is_array($_POST[$key]) || is_object($_POST[$key])) {
-            $value = $_POST[$key];
-            return (self::checkType($value, $type)) ? $_POST[$key] : null;
+            $value = self::checkType($_POST[$key], $type);
+            return ($value) ? $_POST[$key] : null;
         }
 
-        // trim($_POST[$key]
-        $value = self::checkType($_POST[$key], $type);
+        $value = self::checkType(trim($_POST[$key]), $type);
         return ($value) ? $value : null;
     }
 
