@@ -2,6 +2,8 @@
 
 abstract class Helpers
 {
+    private static bool $isSanitized = false;
+
     /**
      * static constructor
      */
@@ -45,28 +47,55 @@ abstract class Helpers
         global $_POST;
         $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        self::$isSanitized = true;
     }
 
-    public static function getFormField(string $key)
+    /**
+     * get a form field
+     * @return null|array|object|mixed form field
+     */
+    public static function getFormField(string $key, FieldTypes $type = FieldTypes::string)
     {
+        if (!self::$isSanitized) {
+            self::sanitizePostAndGet();
+        }
+
+        if (!$_POST) {
+            if ($_GET) {
+                # code...
+            }
+
+            echo null;
+        }
+
         if (!$_POST || ($_POST && !array_key_exists($key, $_POST))) {
             return null;
         }
 
         if (is_array($_POST[$key]) || is_object($_POST[$key])) {
-            return $_POST[$key];
+            $value = $_POST[$key];
+            return (self::checkType($value, $type)) ? $_POST[$key] : null;
         }
 
-        return trim($_POST[$key]);
+        // trim($_POST[$key]
+        $value = self::checkType($_POST[$key], $type);
+        return ($value) ? $value : null;
     }
 
     /**
      * get a form field with long text.
      * includes convert from nl to html <br />
-     * @return string form field text
+     * @return string|null form field text - `null` if not string
      */
     public static function getFormFieldLongText(string $key)
     {
+        $formField = self::getFormField($key);
+
+        if (!is_string($formField)) {
+            return null;
+        }
+
         return nl2br(self::getFormField($key));
     }
 
@@ -117,7 +146,7 @@ abstract class Helpers
     public static function formatEmail(string $email)
     {
         // @see https://ihateregex.io/expr/email/
-        $emailPattern = '/([^@ \t\r\n]+)@([^@ \t\r\n]+)\.([^@ \t\r\n]+)/';
+        $emailPattern = '/^([^@ \t\r\n]+)@([^@ \t\r\n\.]+)\.([^@ \t\r\n]{2,6})$/';
 
         if (preg_match($emailPattern, $email, $matches)) {
             return $matches;
@@ -126,10 +155,65 @@ abstract class Helpers
         }
     }
 
-    public static function array_includes(string $str, array $array)
+    /**
+     * casts a value to specified type and checks if type matches
+     * @param mixed $value value to check for type
+     * @param FieldType $type type to check
+     * @return mixed|bool value with specified type - `false` if type does not match
+     */
+    public static function checkType(mixed $value, FieldTypes $type)
     {
-        return array_search($str, $array) !== false;
+        switch ($type) {
+            case FieldTypes::string:
+                $value = strval($value);
+                return (is_string($value)) ? $value : false;
+                break;
+            case FieldTypes::boolean:
+                $value = boolval($value);
+                return (is_bool($value)) ? $value : false;
+                break;
+            case FieldTypes::int:
+                $value = intval($value);
+                return (is_int($value)) ? $value : false;
+                break;
+            case FieldTypes::double:
+                $value = doubleval($value);
+                return (is_double($value)) ? $value : false;
+                break;
+            case FieldTypes::array:
+                return (is_array($value)) ? $value : false;
+                break;
+            case FieldTypes::object:
+                return (is_object($value)) ? $value : false;
+                break;
+        }
+
+        return false;
     }
+
+    /**
+     * check if array includes an element
+     * @param mixed $element element to check
+     * @param array $array array to check
+     * @return bool array includes element
+     */
+    public static function array_includes(mixed $element, array $array)
+    {
+        return array_search($element, $array) !== false;
+    }
+}
+
+/**
+ * possible field types for type check
+ */
+enum FieldTypes
+{
+    case string;
+    case boolean;
+    case int;
+    case double;
+    case array;
+    case object;
 }
 
 Helpers::init();
