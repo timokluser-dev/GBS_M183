@@ -43,7 +43,7 @@ echo '<!-- LAST ACTIVITY:   ' . $session->get('LAST_ACTIVITY') . ' -->';
     <title>Logbook</title>
 
     <style>
-        body {
+        * {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
@@ -100,60 +100,60 @@ echo '<!-- LAST ACTIVITY:   ' . $session->get('LAST_ACTIVITY') . ' -->';
 </head>
 
 <body>
-    <noscript>
-        <div class="mb-2">
-            <strong class="error">Please enable JavaScript to use this application.</strong>
-        </div>
-    </noscript>
+<noscript>
+    <div class="mb-2">
+        <strong class="error">Please enable JavaScript to use this application.</strong>
+    </div>
+</noscript>
 
-    <div class="hidden mb-2" id="cookies-disabled">
-        <strong class="error">Please enable cookies to use this application.</strong>
+<div class="hidden mb-2" id="cookies-disabled">
+    <strong class="error">Please enable cookies to use this application.</strong>
+</div>
+
+<div id="app">
+    <div>
+        <h1>Logbook</h1>
+        <p>Entries:</p>
+
+        <ul>
+            <?php
+            foreach ($entries as $entry) :
+                ?>
+                <li><?php echo $entry; ?></li>
+            <?php
+            endforeach;
+
+            if (!count($entries)) :
+                ?>
+                <li class="italic">...</li>
+            <?php
+            endif;
+            ?>
+        </ul>
     </div>
 
-    <div id="app">
-        <div>
-            <h1>Logbook</h1>
-            <p>Entries:</p>
 
-            <ul>
-                <?php
-                foreach ($entries as $entry) :
-                ?>
-                    <li><?php echo $entry; ?></li>
-                <?php
-                endforeach;
-
-                if (!count($entries)) :
-                ?>
-                    <li class="italic">...</li>
-                <?php
-                endif;
-                ?>
-            </ul>
-        </div>
-
-
-        <div>
-            <form method="post">
-                <input type="text" name="entry" id="entry" placeholder="enter something ..." autofocus>
-                <button type="submit">Add</button>
-            </form>
-        </div>
-
-        <div class="mt-2">
-            <form method="post">
-                <input type="hidden" name="end_session" value="true">
-                <button type="submit">End Session</button>
-            </form>
-        </div>
+    <div>
+        <form method="post">
+            <input type="text" name="entry" id="entry" placeholder="enter something ..." autofocus>
+            <button type="submit">Add</button>
+        </form>
     </div>
 
-    <script>
-        if (!navigator.cookieEnabled) {
-            document.getElementById('cookies-disabled').style.display = "block";
-            document.getElementById('app').classList.add('hidden');
-        }
-    </script>
+    <div class="mt-2">
+        <form method="post">
+            <input type="hidden" name="end_session" value="true">
+            <button type="submit">End Session</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    if (!navigator.cookieEnabled) {
+        document.getElementById('cookies-disabled').style.display = 'block';
+        document.getElementById('app').classList.add('hidden');
+    }
+</script>
 </body>
 
 <?php
