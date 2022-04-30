@@ -25,11 +25,11 @@ class Session
     public function __construct(SessionConfig $config)
     {
         $this->config = $config;
-
         $this->sessionOptions = array_merge($this->sessionOptions, $config->options);
 
         $this->init();
-        $this->checkSessionTimeout();
+
+        $this->check();
     }
 
     /**
@@ -44,9 +44,19 @@ class Session
     }
 
     /**
-     * check server side for cookie expiration
+     * checks the session for expiration or potential hijacking
      */
-    private function checkSessionTimeout()
+    private function check()
+    {
+        $this->checkExpiration();
+        $this->checkIp();
+        $this->checkUserAgent();
+    }
+
+    /**
+     * checks session expiration
+     */
+    private function checkExpiration()
     {
         if (!$this->config->expiration) {
             return;
@@ -59,6 +69,30 @@ class Session
         }
 
         $this->set('LAST_ACTIVITY', time());
+    }
+
+    /**
+     * checks session for potential hijacking through testing ip
+     */
+    private function checkIp()
+    {
+        if ($this->get('IP_ADDRESS') && $_SERVER['REMOTE_ADDR'] !== $this->get('IP_ADDRESS')) {
+            $this->end();
+        } else {
+            $this->set('IP_ADDRESS', $_SERVER['REMOTE_ADDR']);
+        }
+    }
+
+    /**
+     * checks session for potential hijacking through testing user agents
+     */
+    private function checkUserAgent()
+    {
+        if ($this->get('USER_AGENT') && $_SERVER['HTTP_USER_AGENT'] !== $this->get('USER_AGENT')) {
+            $this->end();
+        } else {
+            $this->set('USER_AGENT', $_SERVER['HTTP_USER_AGENT']);
+        }
     }
 
     /**
@@ -107,14 +141,26 @@ class Session
     }
 
     /**
+     * renew session id and reuse session state
+     * should be done when user authenticated
+     * @return bool regenerate successful
+     */
+    public function renew()
+    {
+        return session_regenerate_id();
+    }
+
+    /**
      * ends the session cleanly
      * @return bool ending successful
      */
     public function end()
     {
         if (session_regenerate_id() && session_abort()) {
-            $this->init();
+            return $this->init();
         }
+
+        return false;
     }
 }
 
