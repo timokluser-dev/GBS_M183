@@ -1,0 +1,29 @@
+/* Datei: style.css */
+body { margin:0px; 
+       font-size: 100%; 
+	   font-family: "Verdana", "Geneva";
+       padding: 20px;
+}
+h1 { font-family: "Courier New", "Courier";
+     font-size: 100%;
+     color: white;
+     background: #add8e6;
+     padding: 2px;
+     text-align: center;
+}
+input { font-family: "Verdana", "Geneva";
+     font-size: 80%; 
+     font-weight: bold; 
+}
+/*
+header { background: #add8e6;
+         padding: 2px;
+         text-align:center;
+}
+nav, footer { text-align: center;    }
+p { font-family: "Verdana", "Geneva";  }
+li { font-family: "Verdana", "Geneva"; }
+article p { margin: 20px; }
+article ul { margin: 20px; }
+hr { color: #add8e6;}
+*/
