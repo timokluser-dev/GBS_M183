@@ -5,7 +5,7 @@
 */		
 
 class Database {
-	private $host = "localhost"; 
+	private $host = "db"; 
 	private $db_name = "modul183ag"; 
 	private $db_kundename = "vmadmin"; 
 	private $db_passw = "Riethuesli>12345"; 
