@@ -92,7 +92,7 @@ switch ($_SESSION['status']) {
 /*					... <-- Hier ist Code zu erg�nzen. 1. von 4 Arbeiten
 
 					// In produktiven Systemen wird eine Kunden-Id aus der DB nie ausgegeben!
-					include 'schutz\Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu erg�nzen. 2. von 4 Arbeiten
+					include 'schutz/Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu erg�nzen. 2. von 4 Arbeiten
 					// Beim n�chsten Durchgang ist eine neue Session gefordert: 
 					session_regenerate_id();
 					
@@ -106,7 +106,7 @@ switch ($_SESSION['status']) {
 		} 
 		if($showFormular) {
 			// wird nur gezeigt, wenn Mailadresse/Passwort nochmals eingegeben werden sollen
-			include 'schutz\Anmeldung.inc.php';
+			include 'schutz/Anmeldung.inc.php';
 		}	
         break;
         
@@ -143,7 +143,7 @@ switch ($_SESSION['status']) {
 				if(!$error) { 
 					// Die Mailadresse ist noch frei und kann in die DB eingetrgen werden
 					if($kunde->changekundePasswordByEmail($email, $passw)) { 
-						include 'schutz\KontoAnlegen2Anmeldung.inc.php';
+						include 'schutz/KontoAnlegen2Anmeldung.inc.php';
 						$_SESSION['status'] = "Anmeldung";
 						// nach der Anzeige des Statuswechsel soll das Formular nicht angezeigt werden:
 						$showFormular = false;
@@ -155,17 +155,16 @@ switch ($_SESSION['status']) {
 		}
 		if($showFormular) {
 			// wird nur gezeigt, wenn Mailadresse/Passwort nochmals eingegeben werden sollen
-			include 'schutz\KontoAnlegen.inc.php';
+			include 'schutz/KontoAnlegen.inc.php';
 		} 
         break;
         
 /*    case "Webshop":
 		$titel = 'WebShop';
 		if ($_SESSION['angemeldet'] == TRUE) {
-			include 'schutz\Webshop.inc.php';    // <-- Diese Datei ist zu erg�nzen. 3. von 4 Arbeiten
+			include 'schutz/Webshop.inc.php';    // <-- Diese Datei ist zu erg�nzen. 3. von 4 Arbeiten
 		} else 
 		   ... <-- Hier ist Code zu erg�nzen. 4. von 4 Arbeiten
 */        break;
         		   
 }
-?>
