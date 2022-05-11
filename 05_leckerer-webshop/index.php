@@ -1,7 +1,7 @@
 <?php
 session_start();
-include 'schutz\modeldb.inc.php';
-include 'schutz\modelkunde.inc.php';
+include 'schutz/modeldb.inc.php';
+include 'schutz/modelkunde.inc.php';
 // In produktiven Systemen darf die Session-ID nie ausgegeben werden!
 echo "Aktuelle Session: ".session_id()."<br>"."<br>"; 
 $errorMessage = '';
@@ -9,13 +9,13 @@ $showFormular = TRUE;
 $error = FALSE;
 
 // In der Datei modeldb.inc.php wird die Klasse 'Database' deklariert.
-// Sie verfügt über eine Methode 'getConnection', die den Verweis auf den Datenbankzugriff enthält.
+// Sie verfï¿½gt ï¿½ber eine Methode 'getConnection', die den Verweis auf den Datenbankzugriff enthï¿½lt.
 $database = new Database(); 
 $dbConnection = $database->getConnection();
 
 // In der Datei 'modelkunde.inc.php' wird die Klasse 'Kunde' deklariert.
 // Als Input wird der Verweis auf den Datenbankzugriff mitgegeben.
-// Die Klasse enthält Lese- und Schreibfunktionen auf die Datenbank.
+// Die Klasse enthï¿½lt Lese- und Schreibfunktionen auf die Datenbank.
 $kunde = new kunde($dbConnection); 
 $kundetmp = $kunde;
 
@@ -79,21 +79,21 @@ switch ($_SESSION['status']) {
 		$passw = (isset($_POST["passw"]) && is_string($_POST["passw"])) ? htmlspecialchars($_POST["passw"]) : "";
 		
 		if (isset($_POST['anmelden']))  {
-			// Formular wurde bereits einmal ausgefüllt 
+			// Formular wurde bereits einmal ausgefï¿½llt 
 			if(strlen($email) == 0) {
 				$errorMessage = 'Bitte geben Sie ein Konto an. <br>';
 				$error = true;
 			} else {
 				// Zugriff auf Datenbank: 
 				$kundetmp = $kunde->getLoginInfoByEmail($email);
-				//Überprüfung des Passworts: 
+				//ï¿½berprï¿½fung des Passworts: 
 				if ($kundetmp == TRUE && password_verify($passw, $kundetmp['passw'])) {
 					// Anmeldung war erfolgreich, da Mailadresse vorhanden und Passwort stimmt 
-/*					... <-- Hier ist Code zu ergänzen. 1. von 4 Arbeiten
+/*					... <-- Hier ist Code zu ergï¿½nzen. 1. von 4 Arbeiten
 
 					// In produktiven Systemen wird eine Kunden-Id aus der DB nie ausgegeben!
-					include 'schutz\Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu ergänzen. 2. von 4 Arbeiten
-					// Beim nächsten Durchgang ist eine neue Session gefordert: 
+					include 'schutz\Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu ergï¿½nzen. 2. von 4 Arbeiten
+					// Beim nï¿½chsten Durchgang ist eine neue Session gefordert: 
 					session_regenerate_id();
 					
 					// nach der Anzeige des Statuswechsel soll das Formular nicht angezeigt werden:
@@ -118,7 +118,7 @@ switch ($_SESSION['status']) {
 		$passwConfirm = (isset($_POST["passwConfirm"]) && is_string($_POST["passwConfirm"])) ? htmlspecialchars($_POST["passwConfirm"]) : "";
 
 		if (isset($_POST['KontoAnlegen'])) {
-			// Formular wurde bereits einmal ausgefüllt 
+			// Formular wurde bereits einmal ausgefï¿½llt 
 			  
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				echo 'Bitte eine g&uuml;ltige E-Mail-Adresse eingeben<br>';
@@ -162,9 +162,9 @@ switch ($_SESSION['status']) {
 /*    case "Webshop":
 		$titel = 'WebShop';
 		if ($_SESSION['angemeldet'] == TRUE) {
-			include 'schutz\Webshop.inc.php';    // <-- Diese Datei ist zu ergänzen. 3. von 4 Arbeiten
+			include 'schutz\Webshop.inc.php';    // <-- Diese Datei ist zu ergï¿½nzen. 3. von 4 Arbeiten
 		} else 
-		   ... <-- Hier ist Code zu ergänzen. 4. von 4 Arbeiten
+		   ... <-- Hier ist Code zu ergï¿½nzen. 4. von 4 Arbeiten
 */        break;
         		   
 }
