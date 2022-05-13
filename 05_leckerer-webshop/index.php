@@ -3,7 +3,6 @@ session_start();
 include 'schutz/modeldb.inc.php';
 include 'schutz/modelkunde.inc.php';
 // In produktiven Systemen darf die Session-ID nie ausgegeben werden!
-echo "Aktuelle Session: ".session_id()."<br>"."<br>"; 
 $errorMessage = '';
 $showFormular = TRUE;
 $error = FALSE;
@@ -66,6 +65,7 @@ if ($_SESSION['status'] == "KontoAnlegen") {
 // ...Klick auf den Browserbutton 'Aktuelle Seite neu laden'.
 if ($_SESSION['angemeldet'] == TRUE && $_SESSION['status'] == "Webshop") {
 	if (isset($_POST['abmelden'])) {
+		session_regenerate_id();
 		$_SESSION['status'] = "Anmeldung";
 	}  
 }
@@ -89,16 +89,22 @@ switch ($_SESSION['status']) {
 				//�berpr�fung des Passworts: 
 				if ($kundetmp == TRUE && password_verify($passw, $kundetmp['passw'])) {
 					// Anmeldung war erfolgreich, da Mailadresse vorhanden und Passwort stimmt 
-/*					... <-- Hier ist Code zu erg�nzen. 1. von 4 Arbeiten
+					$_SESSION['angemeldet'] = true;
 
 					// In produktiven Systemen wird eine Kunden-Id aus der DB nie ausgegeben!
-					include 'schutz/Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu erg�nzen. 2. von 4 Arbeiten
+					$_SESSION['kundeId'] = $kundetmp['id'];
+					$_SESSION['sessionId'] = session_id();
+
 					// Beim n�chsten Durchgang ist eine neue Session gefordert: 
 					session_regenerate_id();
 					
+					include 'schutz/Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu erg�nzen. 2. von 4 Arbeiten
+					
+					$_SESSION['status'] = "Webshop";
+					
 					// nach der Anzeige des Statuswechsel soll das Formular nicht angezeigt werden:
 					$showFormular = false;
-*/				} else {
+				} else {
 					// Anmeldung war nicht erfolgreich, da Mailadresse/Passwort falsch
 			 		$errorMessage = "Eine Anmeldung war nicht m&ouml;glich. Haben Sie ein Konto? <br>";
 			 	}
@@ -159,12 +165,19 @@ switch ($_SESSION['status']) {
 		} 
         break;
         
-/*    case "Webshop":
+    case "Webshop":
 		$titel = 'WebShop';
 		if ($_SESSION['angemeldet'] == TRUE) {
 			include 'schutz/Webshop.inc.php';    // <-- Diese Datei ist zu erg�nzen. 3. von 4 Arbeiten
-		} else 
-		   ... <-- Hier ist Code zu erg�nzen. 4. von 4 Arbeiten
-*/        break;
+		} else {
+		   // <-- Hier ist Code zu erg�nzen. 4. von 4 Arbeiten
+		   echo "Sie sind nicht angemeldet! <br>";
+		}
         		   
 }
+
+echo "<br />";
+echo "<br />";
+echo "<br />";
+echo "<hr>";
+echo "Aktuelle Session: ".session_id()."<br>"."<br>"; 
