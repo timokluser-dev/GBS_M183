@@ -20,7 +20,31 @@
 
 ## Session Handling
 
-> TODO
+> `$_SESSION`
+
+Start Session:
+
+`session_start(array $options = []): bool`
+
+---
+
+Get Session Id:
+
+`session_id(string $id = null): string|false`
+
+---
+
+Regenerate Id:
+
+`session_regenerate_id(bool $delete_old_session = false): bool`
+
+---
+
+End Session:
+
+`session_abort(): bool`
+
+→ reload site or `session_start()`
 
 ### Expiration
 
