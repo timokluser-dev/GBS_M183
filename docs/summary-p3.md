@@ -181,6 +181,33 @@ classDiagram
     }
 ```
 
+## Access Models
+
+|     |     |
+| --- | --- |
+| **MAC** (Mandatory Access Control) | text |
+| **DAC** (Descretionary Access Control) | text |
+
+## Access Control Types
+
+### Trusted Subsystem Model 
+
+Access BE through (single) Service User
+
+![](res/trusted-identity.png)
+
+### Speparated Trusted Sybsystem Model
+
+Access BE different zones (public, secured) through different Service User
+
+![](res/service-identities.png)
+
+### Identity Propagation
+
+Delegation of BE permission to access through user itself
+
+![](res/identity-propagation.png)
+
 ## Debugging
 
 ### Add PHP XDebug extension
