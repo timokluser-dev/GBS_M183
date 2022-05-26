@@ -18,6 +18,50 @@
     - boolval
 - `htmlspecialchars($_POST["field"])`
 
+## Session Handling
+
+> TODO
+
+### Expiration
+
+```php
+$SESSION_EXPIRATION_SECONDS = 5 * 60;
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] >= $SESSION_EXPIRATION_SECONDS)) {
+    // session expired
+    session_regenerate_id() && session_abort();
+}
+
+$_SESSION['LAST_ACTIVITY'] = time();
+```
+
+### Prevent Hijacking 
+
+```php
+$ipAddress = $_SESSION['IP_ADDRESS'];
+if (isset($ipAddress) && $_SERVER['REMOTE_ADDR'] !== $ipAddress) {
+    // session invalid
+    session_regenerate_id() && session_abort();
+} else {
+    $_SESSION['IP_ADDRESS'] = $_SERVER['REMOTE_ADDR'];
+}
+
+# ---
+
+$userAgent = $_SESSION['USER_AGENT'];
+if (isset($userAgent) && $_SERVER['HTTP_USER_AGENT'] !== $userAgent) {
+    // session invalid
+    session_regenerate_id() && session_abort();
+} else {
+    $_SESSION['USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
+}
+```
+
+## Password Security
+
+> → (characters)^(length)
+
+![](res/2022-05-26-22-39-11.png)
+
 ## PDO
 
 ### Establish Connection
