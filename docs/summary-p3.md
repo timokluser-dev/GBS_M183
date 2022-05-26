@@ -58,7 +58,17 @@ $successful = $statement->execute(array('param_email' => $email));
 $id = $this->connection->lastInsertId();
 ```
 
-## API
+## WebShop
+
+### States
+
+![](res/2022-05-26-22-24-58.png)
+
+### Interactions
+
+![](res/webshop_interaction.drawio.png)
+
+### API
 
 ```mermaid
 classDiagram
