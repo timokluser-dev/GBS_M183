@@ -2,7 +2,21 @@
 
 [TOC]
 
-## ...
+## Recap: Secured Input
+
+- `isset($_POST["field"])`
+- `empty($_POST["field"])`
+- `is_string($_POST["field"])`
+    - is_float
+    - is_int
+    - is_bool
+    - is_object
+    - is_array
+- `strval($_POST["field"])`
+    - floatval
+    - intval
+    - boolval
+- `htmlspecialchars($_POST["field"])`
 
 ## PDO
 
