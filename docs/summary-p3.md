@@ -4,6 +4,46 @@
 
 ## ...
 
+## PDO
+
+### Establish Connection
+
+```php
+try { 
+    $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->db_kundename, $this->db_passw); 
+} 
+catch (PDOException $e) {
+    // return error code to user
+}
+```
+
+### DQL
+
+```php
+$statement = $this->connection->prepare("SELECT email, vorname, nachname, created_at, updated_at FROM " . $this->table_name . " WHERE email = :param_email;");
+$successful = $statement->execute(array('param_email' => $email));
+
+if (!$successful) {
+    print_r($statement->errorInfo());
+}
+
+# one row
+$statement->fetch();
+
+# all rows 
+$statement->fetchAll(); // foreach ($kunden as $kunde)
+```
+
+### DML
+
+```php
+$statement = $this->connection->prepare("DELETE FROM " . $this->table_name . " WHERE email = :param_email;");
+$successful = $statement->execute(array('param_email' => $email));
+
+// INSERT INTO:
+$id = $this->connection->lastInsertId();
+```
+
 ## API
 
 ```mermaid
@@ -24,6 +64,7 @@ classDiagram
 
     class Kunde {
         -string $table_name
+        -PDO $connect
 
         +__construct(PDO $db)
         +getKundeByEmail(string $emailLoc) array~db_kunde~
