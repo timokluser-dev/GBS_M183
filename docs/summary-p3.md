@@ -4,6 +4,50 @@
 
 ## ...
 
+## API
+
+```mermaid
+classDiagram
+    Database .. Kunde
+    Kunde .. db_kunde
+
+    class Database {
+        -string $host
+        -string $db_name
+        -string $db_kundename
+        -string $db_passw
+        -PDO $connection
+
+        +__construct()
+        +getConnection() PDO
+    }
+
+    class Kunde {
+        -string $table_name
+
+        +__construct(PDO $db)
+        +getKundeByEmail(string $emailLoc) array~db_kunde~
+        +getEmailAndRightsByEmail(string $emailLoc) array~db_kunde~
+        +getLoginInfoByEmail(string $emailLoc) array~db_kunde~
+        +getKundeInfoByEmail(string $emailLoc) array~db_kunde~
+        +getAllKunde() db_kunde[]
+        +setKundePasswordByEmail(string $emailLoc, string $newPasswordLoc) bool
+    }
+
+    class db_kunde {
+        INT id
+        VARCHAR email
+        VARCHAR passw
+        VARCHAR vorname?
+        VARCHAR nachname?
+        TIMESTAMP created_at
+        TIMESTAMP updated_at?
+        VARCHAR aclallaccounts?
+        VARCHAR passwortcode?
+        TIMESTAMP passwortcode_time?
+    }
+```
+
 ## Debugging
 
 ### Add PHP XDebug extension
