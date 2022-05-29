@@ -181,32 +181,48 @@ classDiagram
     }
 ```
 
+<!--
 ## Access Models
 
 |     |     |
 | --- | --- |
-| **MAC** (Mandatory Access Control) | text |
-| **DAC** (Descretionary Access Control) | text |
+| **MAC** <br /> (Mandatory Access Control) | System based Access Control (e.g. IP Whitelist) - Source Code does not check for Auth |
+| **DAC** <br /> (Descretionary Access Control) | text |
+
+
+
+|     |     |
+| --- | --- |
+| ![](res/MAC.jpg) | ![](res/DAC.jpg) |
 
 ## Access Control Types
 
-### Trusted Subsystem Model 
+### Explicit Protection
+
+text
+
+#### Trusted Subsystem Model 
 
 Access BE through (single) Service User
 
 ![](res/trusted-identity.png)
 
-### Speparated Trusted Sybsystem Model
+#### Separated Trusted Sybsystem Model
 
 Access BE different zones (public, secured) through different Service User
 
 ![](res/service-identities.png)
 
-### Identity Propagation
+#### Identity Propagation
 
 Delegation of BE permission to access through user itself
 
 ![](res/identity-propagation.png)
+
+### Implicit Protection
+
+text
+-->
 
 ## Debugging
 
