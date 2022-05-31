@@ -241,11 +241,7 @@ text
    xdebug.client_port=9003
    xdebug.start_with_request=yes
    ```
-4. Check also in `php.ini` for:
-   ```ini
-   error_reporting=E_ALL
-   ```
-5. Start XAMPP: `apache`
+4. Start XAMPP: `apache`
 
 ### Visual Studio Code
 
