@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `kunde`
     `nachname`          varchar(255) COLLATE utf8_unicode_ci NULL,
     `created_at`        timestamp                            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`        timestamp                            NULL     DEFAULT NULL,
-    `aclallaccounts`    varchar(255) COLLATE utf8_unicode_ci          DEFAULT NULL,
+    `aclallaccounts`    enum('R') COLLATE utf8_unicode_ci    NULL     DEFAULT NULL,
     `passwortcode`      varchar(255) COLLATE utf8_unicode_ci          DEFAULT NULL,
     `passwortcode_time` timestamp                            NULL     DEFAULT NULL,
     PRIMARY KEY (`id`),

@@ -30,6 +30,16 @@ exit;
 
     <img src="schutz/Webshop.jpg" alt="Webshop"><br />
 
+	<hr>
+
+	<?php if ($_SESSION['acl']['allaccounts'] === 'R'): ?>
+	Hier können Sie alle Kontodaten lesen:<br />
+	<?php else: ?>
+	Hier können Sie Ihre Kontodaten lesen:<br />
+	<?php endif; ?>
+
+	<input type="submit" name="allaccounts" value="Zur Kontoverwaltung">
+
     <hr>
 
     Sobald Sie den Webshop verlassen, erhalten Sie eine neue Session.<br />

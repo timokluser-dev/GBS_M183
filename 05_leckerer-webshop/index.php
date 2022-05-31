@@ -70,6 +70,16 @@ if ($_SESSION['angemeldet'] == TRUE && $_SESSION['status'] == "Webshop") {
 	}  
 }
 
+// Zur Kontoverwaltung
+if ($_SESSION['angemeldet'] && isset($_POST['allaccounts'])) {
+	$_SESSION['status'] = "Kontoverwaltung";
+}
+
+// Zurück zum Webshop
+if ($_SESSION['status'] == 'Kontoverwaltung' && isset($_POST['back_to_webshop'])) {
+	$_SESSION['status'] = 'Webshop';
+}
+
 switch ($_SESSION['status']) {
 	
     case "Anmeldung":
@@ -92,6 +102,7 @@ switch ($_SESSION['status']) {
 					$_SESSION['angemeldet'] = true;
 
 					// In produktiven Systemen wird eine Kunden-Id aus der DB nie ausgegeben!
+					$_SESSION['user'] = $kundetmp;
 					$_SESSION['kundeId'] = $kundetmp['id'];
 					$_SESSION['sessionId'] = session_id();
 
@@ -101,6 +112,10 @@ switch ($_SESSION['status']) {
 					include 'schutz/Anmeldung2Webshop.inc.php'; // <-- Diese Datei ist zu erg�nzen. 2. von 4 Arbeiten
 					
 					$_SESSION['status'] = "Webshop";
+
+					// ACL
+					$acl = $kunde->getEmailAndRightsByEmail($email);
+					$_SESSION['acl'] = ['allaccounts' => $acl['aclallaccounts']];
 					
 					// nach der Anzeige des Statuswechsel soll das Formular nicht angezeigt werden:
 					$showFormular = false;
@@ -173,7 +188,15 @@ switch ($_SESSION['status']) {
 		   // <-- Hier ist Code zu erg�nzen. 4. von 4 Arbeiten
 		   echo "Sie sind nicht angemeldet! <br>";
 		}
-        		   
+		break;
+		
+	case 'Kontoverwaltung':
+		$title = 'Kontoverwaltung';
+
+		$_SESSION['users'] = ($_SESSION['acl']['allaccounts'] == 'R') ? $kunde->getAllKunde() : [array_merge($kunde->getKundeInfoByEmail($_SESSION['user']['email']),$kunde->getEmailAndRightsByEmail($_SESSION['user']['email']))];
+
+		include 'schutz/Kontoverwaltung.inc.php';
+		break;
 }
 
 echo "<br />";

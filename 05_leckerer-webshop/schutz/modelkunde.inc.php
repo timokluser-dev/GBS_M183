@@ -47,11 +47,8 @@ class Kunde {
 	public function getAllKunde() {
 			$statement = $this->connect->prepare("SELECT email, vorname, nachname, created_at, updated_at, aclallaccounts FROM $this->table_name");
 			$result = $statement->execute(array());
-			$kundeArray = array();
-			while($u = $statement->fetch()) {
-				$kundeArray[] = $u;
-			}
-			return $kundeArray; 
+
+			return $statement->fetchAll();
 	}
 
 	// Es wird ein neuer Benutzer mit den Inputs eingetragen:

@@ -27,3 +27,8 @@ article p { margin: 20px; }
 article ul { margin: 20px; }
 hr { color: #add8e6;}
 */
+
+.container__items--no-my p {
+     margin-top: 0px;
+     margin-bottom: 0px;
+}
