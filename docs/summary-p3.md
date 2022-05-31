@@ -241,7 +241,19 @@ text
    xdebug.client_port=9003
    xdebug.start_with_request=yes
    ```
-4. Start XAMPP: `apache`
+4. Check also in `php.ini` for:
+   ```ini
+   error_reporting=E_ALL
+   ```
+5. Start XAMPP: `apache`
+6. Add to PATH:
+   ```powershell
+   # start pwsh as admin
+   $PATH = [System.Environment]::GetEnvironmentVariable("PATH",[System.EnvironmentVariableTarget]::Machine)
+   [System.Environment]::SetEnvironmentVariable("PATH", $($PATH + "C:\xampp\php;"), [System.EnvironmentVariableTarget]::Machine)
+   ```
+7. Check with `php -v`  
+   → Should print **php** & **xdebug** version
 
 ### Visual Studio Code
 
